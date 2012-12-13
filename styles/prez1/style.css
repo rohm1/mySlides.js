@@ -1,0 +1,48 @@
+body {
+	overflow: hidden;
+	font: 62.5%/1.5em serif,Arial;
+	line-height: 2.2em;
+}
+
+#slides, .slide {
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.slide {
+	font-size: 2em;
+	display: none;
+	padding-left: 15%;
+}
+
+.head {
+
+}
+
+#footer {
+	font-size: 2em;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 80%;
+	padding: 0 10%;
+	border-top: 1px solid #000;
+}
+
+#footer > section {
+	display: inline;
+}
+
+.author, .company, .date {
+	border-right: 1px solid #000;
+	padding-right: 1em;
+	margin-right: 1em;
+}
+
+.page {
+	float: right;
+}
