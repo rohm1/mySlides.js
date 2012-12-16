@@ -110,6 +110,7 @@ mySlides.prototype = {
 		//go!
 		this.nbr = $('.slide').length;
 		this.setInterval(this.checkSlide, 20);
+		$('#loader').remove();
 	},
 
 	setInterval: function(vCallback, nDelay) {
