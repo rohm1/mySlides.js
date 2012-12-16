@@ -3,6 +3,8 @@ var mySlides = function(userParams) {
 	this.params = {
 		lang: 'en',
 
+		tocLevel: 2,
+
 		footerPageStyle: '%p/%t',
 		footerDisplay: true,
 		footerAutoHide: true,
@@ -91,6 +93,7 @@ mySlides.prototype = {
 		this.bind('keydown', this.keydown);
 
 		//misc
+		this.toc();
 		this.nbr = $('.slide').length;
 		this.setInterval(this.checkSlide, 20);
 	},
@@ -100,6 +103,37 @@ mySlides.prototype = {
 		return window.setInterval(vCallback instanceof Function ? function () {
 			vCallback.apply(oThis, aArgs);
 		} : vCallback, nDelay);
+	},
+
+	/************* toc ******************/
+
+	toc: function() {
+		var root = $('<ul />');
+		var t = this;
+		$('.section').each(function() {
+			//~ var li = $('<li />').html($(this).find('.title').html());
+			var li = t.mkTocLi($(this));
+			if(t.params.tocLevel == 2) {
+				var childs = $('<ul />');
+				$(this).nextAll('.section, .subsection').each(function() {
+					if($(this).hasClass('section'))
+						return false;
+					childs.append(t.mkTocLi($(this)));
+				});
+				if(childs.find('li').length != 0)
+					li.append( childs );
+			}
+			root.append(li);
+		});
+
+		$('.toc').append(root);
+	},
+
+	mkTocLi: function(elt) {
+		var a = $('<a />').html(elt.find('.title')
+				.html())
+				.attr('href', '#' + (elt.parent().find('.slide').index(elt) + 1));
+		return $('<li />').append(a);
 	},
 
 	/************* navigation ******************/
