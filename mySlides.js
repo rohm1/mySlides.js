@@ -20,6 +20,7 @@ var mySlides = function(userParams) {
 
 	/************* variables ******************/
 	this.nbr = -1;
+	this.prev = -1;
 	this.crt = -1;
 	this.popstate = -1;
 
@@ -64,16 +65,14 @@ mySlides.prototype = {
 			case 40: /*down*/
 			case 32: /*space*/
 			case 78: /*n*/
-				this.crt = this.crt + 1;
-				this.checkSlide();
+				this.checkSlide(this.crt + 1);
 				e.preventDefault();
 				break;
 			case 37: /*left*/
 			case 38: /*up*/
 			case 8: /*back*/
 			case 80: /*p*/
-				this.crt = this.crt - 1;
-				this.checkSlide();
+				this.checkSlide(this.crt - 1);
 				e.preventDefault();
 				break;
 			default:
@@ -94,20 +93,25 @@ mySlides.prototype = {
 		//misc
 		this.nbr = $('.slide').length;
 		this.crt = parseInt(document.location.hash.replace('#', ''));
-		this.checkSlide();
+		this.checkSlide(this.crt);
 	},
 
 	/************* navigation ******************/
 
-	pushState: function(url) {
-		history.pushState({}, '', '#' + url);
+	pushState: function() {
+		history.pushState({}, '', this.mkState());
 		this.loadSlide();
 	},
 
-	checkSlide: function() {
-		if(history.state != this.popstate) {
-			this.crt = (isNaN(this.crt) || this.crt < 1) ? 1 : (this.crt > this.nbr ? this.nbr : this.crt);
-			this.pushState(this.crt);
+	mkState: function(crt) {
+		return '#' + (crt == undefined ? this.crt : crt);
+	},
+
+	checkSlide: function(crt) {
+		this.crt = (isNaN(crt) || crt < 1) ? 1 : (crt > this.nbr ? this.nbr : crt);
+		if(this.mkState(this.prev) != this.mkState()) {
+			this.prev = this.crt;
+			this.pushState();
 		}
 	},
 
