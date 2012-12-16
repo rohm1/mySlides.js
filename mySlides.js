@@ -3,8 +3,6 @@ var mySlides = function(userParams) {
 	this.params = {
 		lang: 'en',
 
-		tocLevel: 2,
-
 		footerPageStyle: '%p/%t',
 		footerDisplay: true,
 		footerAutoHide: true,
@@ -22,9 +20,10 @@ var mySlides = function(userParams) {
 
 	/************* variables ******************/
 	this.nbr = -1;
-	this.prev = -1;
 	this.crt = -1;
 	this.hash = -1;
+	this.ntrans = 0;
+	this.curTrans = 0;
 
 	this.lang = {
 		defaultLang: 'en',
@@ -43,6 +42,7 @@ var mySlides = function(userParams) {
 			days: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
 			months: ['Januar', 'Februar', 'MMärz', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dézember']
 		}
+
 	};
 
 	/************* init ******************/
@@ -67,15 +67,19 @@ mySlides.prototype = {
 			case 40: /*down*/
 			case 32: /*space*/
 			case 78: /*n*/
-				document.location.hash = this.crt+1;
-				e.preventDefault();
+				if(this.curTrans == this.ntrans || this.ntrans == 0)
+					document.location.hash = this.crt+1;
+				else
+					this.doTrans(1);
 				break;
 			case 37: /*left*/
 			case 38: /*up*/
 			case 8: /*back*/
 			case 80: /*p*/
-				document.location.hash = this.crt-1;
-				e.preventDefault();
+				if(this.curTrans == 1  || this.ntrans == 0)
+					document.location.hash = this.crt-1;
+				else
+					this.doTrans(-1);
 				break;
 			default:
 				break;
@@ -83,6 +87,9 @@ mySlides.prototype = {
 	},
 
 	/************* init ******************/
+
+
+
 	init: function() {
 		//set date
 		var d = new Date(),
@@ -130,9 +137,9 @@ mySlides.prototype = {
 	},
 
 	mkTocLi: function(elt) {
-		var a = $('<a />').html(elt.find('.title')
-				.html())
-				.attr('href', '#' + (elt.parent().find('.slide').index(elt) + 1));
+		var a = $('<a />')
+			.html(elt.find('.title').html())
+			.attr('href', '#' + (elt.parent().find('.slide').index(elt) + 1));
 		return $('<li />').append(a);
 	},
 
@@ -146,7 +153,21 @@ mySlides.prototype = {
 			this.hash = document.location.hash;
 			$('.slide').hide().eq(this.crt-1).show();
 			$('.page').html( this.params.footerPageStyle.replace('%p', this.crt).replace('%t', this.nbr) );
+
+			this.ntrans = $('.slide').eq(this.crt-1).find('.pause').length;
+			this.curTrans = -1;
+			this.doTrans(1);
 		}
+	},
+
+	doTrans: function(trans) {
+		this.curTrans += trans;
+		this.curTrans = this.curTrans < 0 ? 0 : this.curTrans;
+		$('.slide').eq(this.crt-1).find('.body').children().hide();
+		if(this.curTrans == this.ntrans)
+			$('.slide').eq(this.crt-1).find('.body').children().show();
+		else
+			$('.slide').eq(this.crt-1).find('.pause').eq(this.curTrans).prevAll().show();
 	},
 
 }
