@@ -90,18 +90,16 @@ mySlides.prototype = {
 		//bind keys
 		this.bind('keydown', this.keydown);
 
-		//
-		var __nativeST__ = window.setTimeout, __nativeSI__ = window.setInterval;
-		window.setInterval = function (vCallback, nDelay /*, argumentToPass1, argumentToPass2, etc. */) {
-			var oThis = this, aArgs = Array.prototype.slice.call(arguments, 2);
-			return __nativeSI__(vCallback instanceof Function ? function () {
-				vCallback.apply(oThis, aArgs);
-			} : vCallback, nDelay);
-		};
-
 		//misc
 		this.nbr = $('.slide').length;
-		setInterval.call(this, this.checkSlide, 20);
+		this.setInterval(this.checkSlide, 20);
+	},
+
+	setInterval: function(vCallback, nDelay) {
+		var oThis = this, aArgs = Array.prototype.slice.call(arguments, 2);
+		return window.setInterval(vCallback instanceof Function ? function () {
+			vCallback.apply(oThis, aArgs);
+		} : vCallback, nDelay);
 	},
 
 	/************* navigation ******************/
