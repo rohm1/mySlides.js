@@ -7,7 +7,7 @@
 	<script type="text/javascript" src="mySlides.js"></script>
 	<link rel="stylesheet" type="text/css" href="styles/prez1/style.css" />
 	<script type="text/javascript">
-		new mySlides({lang: 'fr', tocLevel: 2});
+		new mySlides({lang: 'fr', navAsContextMenu: true});
 	</script>
 </head>
 <body>
@@ -118,12 +118,22 @@
 
 </section>
 
-<section id="footer">
+<footer>
 	<section class="author">the viatch team</section>
 	<section class="company">Une belle présentation</section>
 	<section class="date"></section>
-	<section class="page"></section>
-</section>
+	<section class="nav">
+		<span class="buttons">nav</span>
+		<span class="page"></span>
+	</section>
+</footer>
+
+<nav>
+	<section class="toc"></section>
+	<form id="navForm">
+		Go to <input type="text" />
+	</form>
+</nav>
 
 </body>
 </html>

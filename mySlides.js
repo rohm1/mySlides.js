@@ -5,6 +5,8 @@ var mySlides = function(userParams) {
 
 		tocLevel: 2,
 
+		navAsContextMenu: true,
+
 		footerPageStyle: '%p/%t',
 		footerDisplay: true,
 		footerAutoHide: true,
@@ -99,8 +101,13 @@ mySlides.prototype = {
 		//bind keys
 		this.bind('keydown', this.keydown);
 
-		//misc
+		//nav
 		this.toc();
+		this.bind('click', this.showNav, $('footer .buttons'));
+		this.bind('click', this.hideNav, $('nav a'));
+		this.bind('submit', this.navSubmit, $('#navForm'));
+
+		//go!
 		this.nbr = $('.slide').length;
 		this.setInterval(this.checkSlide, 20);
 	},
@@ -166,6 +173,25 @@ mySlides.prototype = {
 			$('.slide').eq(this.crt-1).find('.body').children().show();
 		else
 			$('.slide').eq(this.crt-1).find('.pause').eq(this.curTrans).prevAll().show();
+	},
+
+	showNav: function(e) {
+		if(!$('nav').is(':visible')) {
+			$('nav').show();
+			if(this.params.navAsContextMenu)
+				$('nav').css({top: $('footer .buttons').offset().top - $('nav').height(), left: $('footer .buttons').offset().left + $('footer .buttons').width() + parseInt($('footer .buttons').css('margin-right')) - $('nav').width()});
+		}
+		else
+			this.hideNav();
+	},
+
+	hideNav: function() {
+		$('nav').hide();
+	},
+
+	navSubmit: function() {
+		document.location.hash = $('#navForm input').eq(0).val();
+		this.hideNav();
 	},
 
 }

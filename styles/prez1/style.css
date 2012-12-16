@@ -23,7 +23,7 @@ body {
 
 }
 
-#footer {
+footer {
 	font-size: 2em;
 	position: absolute;
 	bottom: 0;
@@ -33,16 +33,41 @@ body {
 	border-top: 1px solid #000;
 }
 
-#footer > section {
+footer > section {
 	display: inline;
 }
 
-.author, .company, .date {
+footer *:not(.page) {
 	border-right: 1px solid #000;
 	padding-right: 1em;
 	margin-right: 1em;
 }
 
-.page {
+footer .nav {
 	float: right;
+}
+
+footer .buttons {
+	cursor: pointer;
+}
+
+nav {
+	display: none;
+	position: absolute;
+	width: 20em;
+	height: 20em;
+	overflow: auto;
+	border: 1px solid #333;
+}
+
+nav > * {
+	padding-left: 0.5em;
+}
+
+nav .toc > ul {
+	padding-left: 0;
+}
+
+nav input {
+	width: 5em;
 }
