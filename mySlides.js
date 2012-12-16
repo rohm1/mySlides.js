@@ -78,7 +78,7 @@ mySlides.prototype = {
 			case 38: /*up*/
 			case 8: /*back*/
 			case 80: /*p*/
-				if(this.curTrans == 1  || this.ntrans == 0)
+				if(this.curTrans == 0  || this.ntrans == 0)
 					document.location.hash = this.crt-1;
 				else
 					this.doTrans(-1);
