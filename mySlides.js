@@ -3,6 +3,8 @@ var mySlides = function(userParams) {
 	this.params = {
 		lang: 'en',
 
+		tocLevel: 2,
+
 		footerPageStyle: '%p/%t',
 		footerDisplay: true,
 		footerAutoHide: true,
