@@ -90,8 +90,6 @@ mySlides.prototype = {
 
 	/************* init ******************/
 
-
-
 	init: function() {
 		//set date
 		var d = new Date(),
@@ -120,7 +118,6 @@ mySlides.prototype = {
 		var root = $('<ul />');
 		var t = this;
 		$('.section').each(function() {
-			//~ var li = $('<li />').html($(this).find('.title').html());
 			var li = t.mkTocLi($(this));
 			if(t.params.tocLevel == 2) {
 				var childs = $('<ul />');
@@ -164,7 +161,6 @@ mySlides.prototype = {
 
 	doTrans: function(trans) {
 		this.curTrans += trans;
-		this.curTrans = this.curTrans < 0 ? 0 : this.curTrans;
 		$('.slide').eq(this.crt-1).find('.body').children().hide();
 		if(this.curTrans == this.ntrans)
 			$('.slide').eq(this.crt-1).find('.body').children().show();
