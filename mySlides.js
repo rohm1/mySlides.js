@@ -23,6 +23,7 @@ var mySlides = function(userParams) {
 	this.prev = -1;
 	this.crt = -1;
 	this.popstate = -1;
+	this.initialURL = window.location.href;
 
 	this.lang = {
 		defaultLang: 'en',
@@ -90,21 +91,27 @@ mySlides.prototype = {
 		//bind keys
 		this.bind('keydown', this.keydown);
 
+		//bind popstate
+		this.bind('popstate', this.checkSlideFromHash, window);
+
 		//misc
 		this.nbr = $('.slide').length;
-		this.crt = parseInt(document.location.hash.replace('#', ''));
-		this.checkSlide(this.crt);
+		this.checkSlideFromHash();
 	},
 
 	/************* navigation ******************/
 
 	pushState: function() {
-		history.pushState({}, '', this.mkState());
+		history.pushState({url: this.mkState()}, '', this.mkState());
 		this.loadSlide();
 	},
 
 	mkState: function(crt) {
 		return '#' + (crt == undefined ? this.crt : crt);
+	},
+
+	checkSlideFromHash: function() {
+		this.checkSlide(parseInt(document.location.hash.replace('#', '')));
 	},
 
 	checkSlide: function(crt) {
