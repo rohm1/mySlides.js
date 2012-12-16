@@ -22,8 +22,7 @@ var mySlides = function(userParams) {
 	this.nbr = -1;
 	this.prev = -1;
 	this.crt = -1;
-	this.popstate = -1;
-	this.initialURL = window.location.href;
+	this.hash = -1;
 
 	this.lang = {
 		defaultLang: 'en',
@@ -66,14 +65,14 @@ mySlides.prototype = {
 			case 40: /*down*/
 			case 32: /*space*/
 			case 78: /*n*/
-				this.checkSlide(this.crt + 1);
+				document.location.hash = this.crt+1;
 				e.preventDefault();
 				break;
 			case 37: /*left*/
 			case 38: /*up*/
 			case 8: /*back*/
 			case 80: /*p*/
-				this.checkSlide(this.crt - 1);
+				document.location.hash = this.crt-1;
 				e.preventDefault();
 				break;
 			default:
@@ -91,40 +90,32 @@ mySlides.prototype = {
 		//bind keys
 		this.bind('keydown', this.keydown);
 
-		//bind popstate
-		this.bind('popstate', this.checkSlideFromHash, window);
+		//
+		var __nativeST__ = window.setTimeout, __nativeSI__ = window.setInterval;
+		window.setInterval = function (vCallback, nDelay /*, argumentToPass1, argumentToPass2, etc. */) {
+			var oThis = this, aArgs = Array.prototype.slice.call(arguments, 2);
+			return __nativeSI__(vCallback instanceof Function ? function () {
+				vCallback.apply(oThis, aArgs);
+			} : vCallback, nDelay);
+		};
 
 		//misc
 		this.nbr = $('.slide').length;
-		this.checkSlideFromHash();
+		setInterval.call(this, this.checkSlide, 20);
 	},
 
 	/************* navigation ******************/
 
-	pushState: function() {
-		history.pushState({url: this.mkState()}, '', this.mkState());
-		this.loadSlide();
-	},
-
-	mkState: function(crt) {
-		return '#' + (crt == undefined ? this.crt : crt);
-	},
-
-	checkSlideFromHash: function() {
-		this.checkSlide(parseInt(document.location.hash.replace('#', '')));
-	},
-
-	checkSlide: function(crt) {
-		this.crt = (isNaN(crt) || crt < 1) ? 1 : (crt > this.nbr ? this.nbr : crt);
-		if(this.mkState(this.prev) != this.mkState()) {
-			this.prev = this.crt;
-			this.pushState();
+	checkSlide: function() {
+		if(window.location.hash != this.hash) {
+			this.crt = parseInt(document.location.hash.replace('#', ''));
+			this.crt = (isNaN(this.crt) || this.crt < 1) ? 1 : (this.crt > this.nbr ? this.nbr : this.crt);
+			document.location.hash = this.crt;
+			this.hash = document.location.hash;
+			$('.slide').hide().eq(this.crt-1).show();
+			$('.page').html( this.params.footerPageStyle.replace('%p', this.crt).replace('%t', this.nbr) );
 		}
 	},
 
-	loadSlide: function() {
-		$('.slide').hide().eq(this.crt-1).show();
-		$('.page').html( this.params.footerPageStyle.replace('%p', this.crt).replace('%t', this.nbr) );
-	},
 }
 
