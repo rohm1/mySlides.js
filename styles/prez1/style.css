@@ -66,28 +66,57 @@ footer .nav {
 	cursor: pointer;
 }
 
+/***** Nav Popup *****/
+
 #navPopup {
 	position: absolute;
-	width: 20em;
-	height: 20em;
 	overflow: auto;
-	border: 1px solid #333;
+	background: url(bkg3.png);
+	z-index: 100;
 }
 
-#navPopup > * {
+#navPopupContainer {
+	border: 1px solid #333;
+	background: #fff;
+}
+
+.navPopupContextMenu {
+	width: 20em;
+	height: 20em;
+}
+
+.navPopupContextMenu #navPopupClose {
+	display: none;
+}
+
+.navPopupContextMenu > * {
 	padding-left: 0.5em;
 }
 
-#navPopup .toc > ul {
+.navPopupContextMenu .toc > ul {
 	padding-left: 0;
+}
+
+.navPopupPopup {
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
+.navPopupPopup #navPopupContainer {
+	width: 70%;
+	margin: 0 auto;
 }
 
 #navPopup input {
 	width: 5em;
 }
 
+/***** Exposé *****/
+
 #expose {
-	background: #fff;
+	background: url(bkg3.png);
 	display: none;
 	position: absolute;
 	width: 100%;
@@ -101,6 +130,7 @@ footer .nav {
 	width: 100%;
 	height: 100%;
 	overflow: auto;
+	background: #fff;
 }
 
 .expose {
@@ -120,5 +150,12 @@ footer .nav {
 }
 
 .exposeInline {
+	padding-top: 3em;
 	height: 20em !important;
+}
+
+.exposeInline #exposeClose {
+	position: fixed;
+	top: 0;
+	left: 50%;
 }

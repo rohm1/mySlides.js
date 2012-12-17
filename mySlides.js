@@ -3,7 +3,7 @@ var mySlides = function(userParams) {
 	this.params = {
 		lang: 'en',
 		tocLevel: 2, // 1|2
-		navAsContextMenu: true,
+		navPopupAsContextMenu: true,
 		exposeMode: 'grid', // grid|inline
 		footerPageStyle: '%p/%t',
 		footerDisplay: true,
@@ -102,8 +102,9 @@ mySlides.prototype = {
 		//nav
 		this.toc();
 		this.bind('click', this.showNav, $('#navButton'));
-		this.bind('click', this.hideNav, $('#navPopup a'));
+		this.bind('click', this.hideNav, $('#navPopup a, #navPopupClose'));
 		this.bind('submit', this.navSubmit, $('#navForm'));
+		$('#navPopup').addClass(this.params.navPopupAsContextMenu ? 'navPopupContextMenu' : 'navPopupPopup');
 
 		//misc
 		this.hideNav();
@@ -184,7 +185,7 @@ mySlides.prototype = {
 
 	showNav: function(e) {
 		if(!$('#navPopup').is(':visible')) {
-			if(this.params.navAsContextMenu)
+			if(this.params.navPopupAsContextMenu)
 				$('#navPopup').css({top: $('#navButton').offset().top - $('#navPopup').height(), left: $('#navButton').offset().left + $('#navButton').width() + parseInt($('#navButton').css('margin-right')) - $('#navPopup').width()});
 			$('#navPopup').show();
 		}

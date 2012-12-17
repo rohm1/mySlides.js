@@ -28,6 +28,10 @@ mySlides.js
 * #navButton
 * #navForm
 * #navPopup
+* #navPopupClose
+* #navPopupContainer
+* .navPopupContextMenu
+* .navPopupPopup
 * #pages
 * .pause
 * .section
