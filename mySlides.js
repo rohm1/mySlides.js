@@ -101,8 +101,8 @@ mySlides.prototype = {
 
 		//nav
 		this.toc();
-		this.bind('click', this.showNav, $('footer .buttons'));
-		this.bind('click', this.hideNav, $('nav a'));
+		this.bind('click', this.showNav, $('#navButton'));
+		this.bind('click', this.hideNav, $('#navPopup a'));
 		this.bind('submit', this.navSubmit, $('#navForm'));
 
 		//misc
@@ -183,10 +183,10 @@ mySlides.prototype = {
 	},
 
 	showNav: function(e) {
-		if(!$('nav').is(':visible')) {
-			$('nav').show();
+		if(!$('#navPopup').is(':visible')) {
 			if(this.params.navAsContextMenu)
 				$('#navPopup').css({top: $('#navButton').offset().top - $('#navPopup').height(), left: $('#navButton').offset().left + $('#navButton').width() + parseInt($('#navButton').css('margin-right')) - $('#navPopup').width()});
+			$('#navPopup').show();
 		}
 		else
 			this.hideNav();
