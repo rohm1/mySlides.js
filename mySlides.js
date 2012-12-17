@@ -2,11 +2,9 @@ var mySlides = function(userParams) {
 	/************* params ******************/
 	this.params = {
 		lang: 'en',
-
-		tocLevel: 2,
-
+		tocLevel: 2, // 1|2
 		navAsContextMenu: true,
-
+		exposeMode: 'grid', // grid|inline
 		footerPageStyle: '%p/%t',
 		footerDisplay: true,
 		footerAutoHide: true,
@@ -80,7 +78,7 @@ mySlides.prototype = {
 			case 38: /*up*/
 			case 8: /*back*/
 			case 80: /*p*/
-				if(this.curTrans == 0  || this.ntrans == 0)
+				if(this.curTrans == 0)
 					document.location.hash = this.crt-1;
 				else
 					this.doTrans(-1);
@@ -106,6 +104,14 @@ mySlides.prototype = {
 		this.bind('click', this.showNav, $('footer .buttons'));
 		this.bind('click', this.hideNav, $('nav a'));
 		this.bind('submit', this.navSubmit, $('#navForm'));
+
+		//misc
+		this.hideNav();
+
+		//exposé
+		this.bind('click', this.expose, $('#exposeButton'));
+		this.bind('click', this.hideExpose, $('#exposeClose'));
+		$('#exposeContainer').addClass(this.params.exposeMode == 'inline' ? 'exposeInline' : 'exposeGrid');
 
 		//go!
 		this.nbr = $('.slide').length;
@@ -158,8 +164,8 @@ mySlides.prototype = {
 			this.crt = (isNaN(this.crt) || this.crt < 1) ? 1 : (this.crt > this.nbr ? this.nbr : this.crt);
 			document.location.hash = this.crt;
 			this.hash = document.location.hash;
-			$('.slide').hide().eq(this.crt-1).show();
-			$('.page').html( this.params.footerPageStyle.replace('%p', this.crt).replace('%t', this.nbr) );
+			$('.slide').removeClass('crt').eq(this.crt-1).addClass('crt');
+			$('#pages').html( this.params.footerPageStyle.replace('%p', this.crt).replace('%t', this.nbr) );
 
 			this.ntrans = $('.slide').eq(this.crt-1).find('.pause').length;
 			this.curTrans = -1;
@@ -180,14 +186,14 @@ mySlides.prototype = {
 		if(!$('nav').is(':visible')) {
 			$('nav').show();
 			if(this.params.navAsContextMenu)
-				$('nav').css({top: $('footer .buttons').offset().top - $('nav').height(), left: $('footer .buttons').offset().left + $('footer .buttons').width() + parseInt($('footer .buttons').css('margin-right')) - $('nav').width()});
+				$('#navPopup').css({top: $('#navButton').offset().top - $('#navPopup').height(), left: $('#navButton').offset().left + $('#navButton').width() + parseInt($('#navButton').css('margin-right')) - $('#navPopup').width()});
 		}
 		else
 			this.hideNav();
 	},
 
 	hideNav: function() {
-		$('nav').hide();
+		$('#navPopup').hide();
 	},
 
 	navSubmit: function() {
@@ -195,5 +201,26 @@ mySlides.prototype = {
 		this.hideNav();
 	},
 
+	expose: function() {
+		$('#slides .slide').each(function() {
+			$('#exposeSlideContainer').append( $('<a />').attr('href', '#' + ($('#slides .slide').index($(this))+1)).append( $(this).clone().addClass('expose') ) );
+		});
+		this.bind('click', this.exposeClick, $('.expose'));
+		$('#expose .slide *').attr('style', '');
+		if(this.params.exposeMode == 'inline')
+			$('#exposeSlideContainer').width($('.expose').length * $('.expose').outerWidth(true));
+		$('#expose').show();
+	},
+
+	hideExpose: function() {
+		$('#exposeSlideContainer').children().remove();
+		$('#expose').hide();
+	},
+
+	exposeClick: function(e) {
+		e.preventDefault();
+		window.location = e['currentTarget']['parentElement'].href;
+		this.hideExpose();
+	},
 }
 

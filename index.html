@@ -7,7 +7,7 @@
 	<script type="text/javascript" src="mySlides.js"></script>
 	<link rel="stylesheet" type="text/css" href="styles/prez1/style.css" />
 	<script type="text/javascript">
-		new mySlides({lang: 'fr', navAsContextMenu: true});
+		new mySlides({lang: 'fr', exposeMode: 'inline'});
 	</script>
 </head>
 <body>
@@ -120,22 +120,30 @@
 
 </section>
 
+<section id="navPopup">
+	<section class="toc"></section>
+	<form id="navForm">
+		Go to <input type="text" />
+	</form>
+</section>
+
+<section id="expose">
+	<section id="exposeClose">close</section>
+	<section id="exposeContainer">
+		<section id="exposeSlideContainer"></section>
+	</section>
+</section>
+
 <footer>
 	<section class="author">the viatch team</section>
 	<section class="company">Une belle présentation</section>
 	<section class="date"></section>
 	<section class="nav">
-		<span class="buttons">nav</span>
-		<span class="page"></span>
+		<span id="exposeButton">exposé</span>
+		<span id="navButton">nav</span>
+		<span id="pages"></span>
 	</section>
 </footer>
-
-<nav>
-	<section class="toc"></section>
-	<form id="navForm">
-		Go to <input type="text" />
-	</form>
-</nav>
 
 </body>
 </html>
