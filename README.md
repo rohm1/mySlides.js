@@ -4,8 +4,16 @@ mySlides.js
 ##Usage##
 
 ##Features##
+* table of contents automatic generation with links to slides
+* nav popup/context menu
+* exposé mode (grid, inline)
+* responsive design (resize the text depending on your screen height)
+* pauses: display your slides step by step
+* localization: select your language to display properly the date
+* create your own theme
 
 ##Parameters##
+
 * lang: used for the date
   + values: de|en|fr
   + default: en
@@ -22,9 +30,18 @@ mySlides.js
 * slideNumberStyle: defines how the slide number will be displayed
   + default: %p/%t
   + use %p for the current slide number, %n for the total slides number
+* dateFormat: custom date format overriding the language's default date format
+  + default: the date format of the selected language
+  + %l: a full textual representation of the day of the week
+  + %j: day of the month without leading zeros
+  + %F: a full textual representation of a month
+  + %n: numeric representation of a month, without leading zeros
+  + %y: a two digit representation of a year
+  + %Y: a full numeric representation of a year, 4 digits
 
 ##Classes and IDs##
 **All these classes and IDs are used by mySlides.js**
+
 * .crt: current slide
 * #date: where the date will be displayed
 * .expose: a slide in exposé mode
@@ -32,17 +49,17 @@ mySlides.js
 * #exposeButton: button to activate exposé
 * #exposeClose: button to close exposé
 * #exposeContainer: the container for exposé
-* .exposeGrid: sets exposé in grid mode; use ```exposeMode: 'grid'``` to activate this class
-* .exposeInline: sets exposé in inline mode; use ```exposeMode: 'inline'``` to activate this class
+* .exposeGrid: sets exposé in grid mode; use ```exposeMode: 'grid'``` to apply this class to #expose
+* .exposeInline: sets exposé in inline mode; use ```exposeMode: 'inline'``` to apply this class to #expose
 * #exposeSlideContainer: exposé slides will be inside
-* #loader: a loading frame; dismissed when mySlides is ready
+* #loader: a loading frame; dismissed when mySlides.js is ready
 * #navButton: button to activate the nav popup
 * #navForm: form to jump directly to a slide, given a slide number; can contain a submit button, but only one ```<input type="text" />```; this input's value will be used after the form is submitted
 * #navPopup: the nav popup
 * #navPopupClose: button to close the nav popup
-* #navPopupContainer: container form the nav popup
-* .navPopupContextMenu: displays the nav popup as a context menu; use ```navPopupAsContextMenu: true``` to activate this class
-* .navPopupPopup: displays the nav popup as popup; use ```navPopupAsContextMenu: false``` to activate this class
+* #navPopupContainer: container for the nav popup
+* .navPopupContextMenu: displays the nav popup as a context menu; use ```navPopupAsContextMenu: true``` to apply this class to #navPopup
+* .navPopupPopup: displays the nav popup as popup; use ```navPopupAsContextMenu: false``` to apply this class to #navPopup
 * #pages: where the pages will be displayed
 * .pause: use an invisible element with this class to make pauses in your slides
 * .section: used to generate the table of contents; top level

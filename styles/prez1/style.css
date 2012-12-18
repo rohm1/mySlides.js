@@ -1,7 +1,10 @@
 body {
 	overflow: hidden;
-	font: 62.5%/1.5em serif,Arial;
-	line-height: 2.2em;
+	font-family: serif,Arial;
+}
+
+a {
+	color: #609fc3;
 }
 
 #slides, .slide {
@@ -29,7 +32,7 @@ body {
 }
 
 #loader {
-	z-index: 100;
+	z-index: 1000;
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -39,7 +42,9 @@ body {
 }
 
 footer {
-	font-size: 2em;
+	font-size: 1em;
+	line-height: 1em;
+	height: 1em;
 	position: absolute;
 	bottom: 0;
 	left: 0;
@@ -66,6 +71,13 @@ footer .nav {
 	cursor: pointer;
 }
 
+.closeBtn {
+	width: 32px;
+	height: 32px;
+	background: url(close.png) no-repeat center;
+	cursor: pointer;
+}
+
 /***** Nav Popup *****/
 
 #navPopup {
@@ -81,8 +93,9 @@ footer .nav {
 }
 
 .navPopupContextMenu {
+	line-height: 1.5em;
 	width: 20em;
-	height: 20em;
+	max-height: 20em;
 }
 
 .navPopupContextMenu #navPopupClose {
@@ -104,9 +117,21 @@ footer .nav {
 	left: 0;
 }
 
+.navPopupPopup #navPopupClose {
+	position: fixed;
+	left: 89%;
+	top: 9%;
+}
+
 .navPopupPopup #navPopupContainer {
-	width: 70%;
+	position: absolute;
+	top: 10%;
+	left: 10%;
+	width: 80%;
 	margin: 0 auto;
+	background: #222;
+	color: #fff;
+	box-shadow: -2.5px -2.5px 10px 5px #333333;
 }
 
 #navPopup input {
@@ -117,7 +142,6 @@ footer .nav {
 
 #expose {
 	background: url(bkg3.png);
-	display: none;
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -127,35 +151,59 @@ footer .nav {
 }
 
 #exposeContainer {
-	width: 100%;
-	height: 100%;
 	overflow: auto;
-	background: #fff;
+	background: #222;
+	position: absolute;
+	box-shadow: -2.5px -2.5px 10px 5px #333333;
 }
 
 .expose {
 	display: block;
 	float: left;
 	border: 1px solid #000;
-	width: 11em;
-	height: 8em;
+	width: 10em;
+	height: 7em;
 	position: static;
 	padding: 0;
-	margin: 0 2em 1em 0;
+	margin: 0 1em 1em 0;
 	cursor: pointer;
 }
 
 .expose > * {
-	font-size: 0.6em;
+	font: 30%/1.5em serif,Arial;
 }
 
-.exposeInline {
-	padding-top: 3em;
-	height: 20em !important;
+.exposeInline #exposeContainer {
+	height: 20em;
+	width: 80%;
+	top: 25%;
+	left: 10%;
 }
 
 .exposeInline #exposeClose {
 	position: fixed;
-	top: 0;
-	left: 50%;
+	top: 24%;
+	left: 89%;
+}
+
+.exposeInline #exposeSlideContainer {
+	padding: 2em 0 1.5em 2em;
+}
+
+.exposeGrid #exposeContainer {
+	margin: 0 auto;
+	height: 80%;
+	width: 80%;
+	top: 10%;
+	left: 10%;
+}
+
+.exposeGrid #exposeClose {
+	position: fixed;
+	top: 8%;
+	left: 89%;
+}
+
+.exposeGrid #exposeSlideContainer {
+	padding: 2em;
 }

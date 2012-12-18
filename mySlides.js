@@ -2,9 +2,9 @@ var mySlides = function(userParams) {
 	/************* params ******************/
 	this.params = {
 		lang: 'en',
-		tocLevel: 2, // 1|2
+		tocLevel: 2,
 		navPopupAsContextMenu: true,
-		exposeMode: 'grid', // grid|inline
+		exposeMode: 'grid',
 		slideNumberStyle: '%p/%t',
 		footerDisplay: true,
 		footerAutoHide: true,
@@ -15,7 +15,7 @@ var mySlides = function(userParams) {
 		footerHideMethod: 'slide',
 	};
 
-	if(userParams != undefined) {
+	if(userParams != undefined) { //params validity is not checked; you submit shit, shit happens!
 		for(param in userParams)
 			this.params[param] = userParams[param];
 	}
@@ -28,21 +28,21 @@ var mySlides = function(userParams) {
 	this.curTrans = 0;
 
 	this.lang = {
-		defaultLang: 'en',
+		defaultLang: 'en', //if the submitted parans.lang does not exist
 		fr: {
-			format: '%N %j %F %Y',
+			format: '%l %j %F %Y ',
 			days: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
 			months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
 		},
 		en: {
-			format: '%N, %F %j %Y',
+			format: '%l, %F %j %Y',
 			days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-			months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'Décember']
+			months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 		},
 		de: {
-			format: '%N, %j. %F %Y',
+			format: '%l, %j. %F %Y',
 			days: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
-			months: ['Januar', 'Februar', 'MMärz', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dézember']
+			months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember']
 		}
 
 	};
@@ -88,31 +88,57 @@ mySlides.prototype = {
 		}
 	},
 
+	resize: function() {
+		var wh = $(window).height();
+		var lh = 2;
+		var fs = 70;
+		if(wh > 800) {
+			lh = 3.2;
+			fs = 100;
+		}
+		else if(wh > 650) {
+			lh = 2.5;
+			fs = 90;
+		}
+		else if(wh > 500) {
+			lh = 2.2;
+			fs = 80;
+		}
+		$('body').css({'line-height': lh + 'em', 'font-size': fs + '%'});
+
+		if($('.exposeInline .expose').length != 0)
+			$('#exposeSlideContainer').width($('.expose').length * $('.expose').outerWidth(true));
+	},
+
 	/************* init ******************/
 
 	init: function() {
 		//set date
 		var d = new Date(),
-			l = this.lang[this.params.lang] == undefined ? this.lang[this.lang.defaultLang] : this.lang[this.params.lang];
-		$('.date').html( l.format.replace('%j', d.getDate()).replace('%N', l.days[d.getDay()]).replace('%F', l.months[d.getMonth()]).replace('%Y', d.getFullYear()) );
+			l = this.lang[this.params.lang] == undefined ? this.lang[this.lang.defaultLang] : this.lang[this.params.lang],
+			format = this.params.dateFormat == undefined ? l.format : this.params.dateFormat;
+		$('.date').html( format.replace('%j', d.getDate()).replace('%l', l.days[d.getDay()]).replace('%F', l.months[d.getMonth()]).replace('%Y', d.getFullYear()).replace('%n', d.getMonth()+1).replace('%y', d.getFullYear()%100) );
 
 		//bind keys
 		this.bind('keydown', this.keydown);
 
 		//nav
+		this.hideNav();
 		this.toc();
 		this.bind('click', this.showNav, $('#navButton'));
 		this.bind('click', this.hideNav, $('#navPopup a, #navPopupClose'));
 		this.bind('submit', this.navSubmit, $('#navForm'));
 		$('#navPopup').addClass(this.params.navPopupAsContextMenu ? 'navPopupContextMenu' : 'navPopupPopup');
 
-		//misc
-		this.hideNav();
+		//window resize
+		this.bind('resize', this.resize, window);
+		this.resize();
 
 		//exposé
+		this.hideExpose();
 		this.bind('click', this.expose, $('#exposeButton'));
 		this.bind('click', this.hideExpose, $('#exposeClose'));
-		$('#exposeContainer').addClass(this.params.exposeMode == 'inline' ? 'exposeInline' : 'exposeGrid');
+		$('#expose').addClass(this.params.exposeMode == 'inline' ? 'exposeInline' : 'exposeGrid');
 
 		//go!
 		this.nbr = $('.slide').length;
@@ -204,7 +230,7 @@ mySlides.prototype = {
 
 	expose: function() {
 		$('#slides .slide').each(function() {
-			$('#exposeSlideContainer').append( $('<a />').attr('href', '#' + ($('#slides .slide').index($(this))+1)).append( $(this).clone().addClass('expose') ) );
+			$('#exposeSlideContainer').append( $('<span />').attr('id', 'lnk_#' + ($('#slides .slide').index($(this))+1)).append( $(this).clone().addClass('expose') ) );
 		});
 		this.bind('click', this.exposeClick, $('.expose'));
 		$('#expose .slide *').attr('style', '');
@@ -220,8 +246,7 @@ mySlides.prototype = {
 
 	exposeClick: function(e) {
 		e.preventDefault();
-		window.location = e['currentTarget']['parentElement'].href;
+		window.location = e['currentTarget']['parentElement'].id.replace('lnk_', '');
 		this.hideExpose();
 	},
 }
-
