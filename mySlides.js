@@ -5,7 +5,7 @@ var mySlides = function(userParams) {
 		tocLevel: 2, // 1|2
 		navPopupAsContextMenu: true,
 		exposeMode: 'grid', // grid|inline
-		footerPageStyle: '%p/%t',
+		slideNumberStyle: '%p/%t',
 		footerDisplay: true,
 		footerAutoHide: true,
 		footerShowDuration: 1500,
@@ -166,7 +166,7 @@ mySlides.prototype = {
 			document.location.hash = this.crt;
 			this.hash = document.location.hash;
 			$('.slide').removeClass('crt').eq(this.crt-1).addClass('crt');
-			$('#pages').html( this.params.footerPageStyle.replace('%p', this.crt).replace('%t', this.nbr) );
+			$('#pages').html( this.params.slideNumberStyle.replace('%p', this.crt).replace('%t', this.nbr) );
 
 			this.ntrans = $('.slide').eq(this.crt-1).find('.pause').length;
 			this.curTrans = -1;
