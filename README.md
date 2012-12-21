@@ -29,7 +29,7 @@ mySlides.js
   + default: grid
 * slideNumberStyle: defines how the slide number will be displayed
   + default: %p/%t
-  + use %p for the current slide number, %n for the total slides number
+  + use %p for the current slide number, %t for the total slides number
 * dateFormat: custom date format overriding the language's default date format
   + default: the date format of the selected language
   + %l: a full textual representation of the day of the week
@@ -48,7 +48,6 @@ mySlides.js
 * #expose: the exposé frame
 * #exposeButton: button to activate exposé
 * #exposeClose: button to close exposé
-* #exposeContainer: the container for exposé
 * .exposeGrid: sets exposé in grid mode; use ```exposeMode: 'grid'``` to apply this class to #expose
 * .exposeInline: sets exposé in inline mode; use ```exposeMode: 'inline'``` to apply this class to #expose
 * #exposeSlideContainer: exposé slides will be inside
@@ -57,7 +56,6 @@ mySlides.js
 * #navForm: form to jump directly to a slide, given a slide number; can contain a submit button, but only one ```<input type="text" />```; this input's value will be used after the form is submitted
 * #navPopup: the nav popup
 * #navPopupClose: button to close the nav popup
-* #navPopupContainer: container for the nav popup
 * .navPopupContextMenu: displays the nav popup as a context menu; use ```navPopupAsContextMenu: true``` to apply this class to #navPopup
 * .navPopupPopup: displays the nav popup as popup; use ```navPopupAsContextMenu: false``` to apply this class to #navPopup
 * #pages: where the pages will be displayed

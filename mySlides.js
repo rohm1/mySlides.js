@@ -89,25 +89,18 @@ mySlides.prototype = {
 	},
 
 	resize: function() {
-		var wh = $(window).height();
-		var lh = 2;
-		var fs = 70;
-		if(wh > 800) {
-			lh = 3.2;
-			fs = 100;
-		}
-		else if(wh > 650) {
-			lh = 2.5;
-			fs = 90;
-		}
-		else if(wh > 500) {
-			lh = 2.2;
-			fs = 80;
-		}
+		var p = $(window).height() / 1000;
+		var lh = 3 * p;
+		lh = lh < 1.8 ? 1.8 : lh;
+		var fs = 130 * p;
+		fs = fs < 100 ? 100 : fs;
 		$('body').css({'line-height': lh + 'em', 'font-size': fs + '%'});
 
 		if($('.exposeInline .expose').length != 0)
-			$('#exposeSlideContainer').width($('.expose').length * $('.expose').outerWidth(true));
+			this.expandInlineExpose();
+
+		if($('.navPopupContextMenu').is(':visible'))
+			this.positionContextNav();
 	},
 
 	/************* init ******************/
@@ -212,11 +205,15 @@ mySlides.prototype = {
 	showNav: function(e) {
 		if(!$('#navPopup').is(':visible')) {
 			if(this.params.navPopupAsContextMenu)
-				$('#navPopup').css({top: $('#navButton').offset().top - $('#navPopup').height(), left: $('#navButton').offset().left + $('#navButton').width() + parseInt($('#navButton').css('margin-right')) - $('#navPopup').width()});
+				this.positionContextNav();
 			$('#navPopup').show();
 		}
 		else
 			this.hideNav();
+	},
+
+	positionContextNav: function() {
+		$('#navPopup').css({top: $('#navButton').offset().top - $('#navPopup').height(), left: $('#navButton').offset().left + $('#navButton').width() + parseInt($('#navButton').css('margin-right')) - $('#navPopup').width()});
 	},
 
 	hideNav: function() {
@@ -235,8 +232,12 @@ mySlides.prototype = {
 		this.bind('click', this.exposeClick, $('.expose'));
 		$('#expose .slide *').attr('style', '');
 		if(this.params.exposeMode == 'inline')
-			$('#exposeSlideContainer').width($('.expose').length * $('.expose').outerWidth(true));
+			this.expandInlineExpose();
 		$('#expose').show();
+	},
+
+	expandInlineExpose: function() {
+		$('#exposeSlideContainer').width($('.expose').length * $('.expose').outerWidth(true) + 10);
 	},
 
 	hideExpose: function() {
