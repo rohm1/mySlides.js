@@ -110,7 +110,6 @@ mySlides.prototype = {
 			if($(this).data('height') == undefined)
 				$(this).data('height', $(this).height());
 			$(this).height($(this).data('height') * $(window).height() / 1000);
-			console.log($(this).height());
 		});
 	},
 
@@ -249,6 +248,13 @@ mySlides.prototype = {
 		if(this.params.exposeMode == 'inline')
 			this.expandInlineExpose();
 		$('#expose').show();
+
+		$('#expose .slide img').each(function() {
+			if($(this).data('height') == undefined)
+				$(this).data('height', $(this).height());
+			$(this).height($(this).data('height') / 3);
+			console.log($(this).height())
+		});
 	},
 
 	expandInlineExpose: function() {
