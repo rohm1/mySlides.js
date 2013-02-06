@@ -101,6 +101,17 @@ mySlides.prototype = {
 
 		if($('.navPopupContextMenu').is(':visible'))
 			this.positionContextNav();
+
+		this.scaleImages();
+	},
+
+	scaleImages: function() {
+		$('#slides .slide img:visible').each(function() {
+			if($(this).data('height') == undefined)
+				$(this).data('height', $(this).height());
+			$(this).height($(this).data('height') * $(window).height() / 1000);
+			console.log($(this).height());
+		});
 	},
 
 	/************* init ******************/
@@ -196,10 +207,14 @@ mySlides.prototype = {
 	doTrans: function(trans) {
 		this.curTrans += trans;
 		$('.slide').eq(this.crt-1).find('.body').children().hide();
+		var elts;
 		if(this.curTrans == this.ntrans)
-			$('.slide').eq(this.crt-1).find('.body').children().show();
+			elts = $('.slide').eq(this.crt-1).find('.body').children();
 		else
-			$('.slide').eq(this.crt-1).find('.pause').eq(this.curTrans).prevAll().show();
+			elts = $('.slide').eq(this.crt-1).find('.pause').eq(this.curTrans).prevAll();
+
+		elts.show();
+		this.scaleImages();
 	},
 
 	showNav: function(e) {
