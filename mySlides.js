@@ -190,6 +190,7 @@ mySlides.prototype = {
 
 	checkSlide: function() {
 		if(window.location.hash != this.hash) {
+			var oldCrt = this.crt;
 			this.crt = parseInt(document.location.hash.replace('#', ''));
 			this.crt = (isNaN(this.crt) || this.crt < 1) ? 1 : (this.crt > this.nbr ? this.nbr : this.crt);
 			document.location.hash = this.crt;
@@ -218,12 +219,12 @@ mySlides.prototype = {
 
 			this.ntrans = Math.max(pauseTrans, onlyTrans - 1);
 			this.curTrans = -1;
-			this.doTrans(1);
+			this.doTrans(oldCrt > this.crt ? this.ntrans + 1 : 1);
 		}
 	},
 
 	doTrans: function(trans) {
-		this.curTrans += trans;
+		this.curTrans += trans;console.log(this.curTrans + " " + this.ntrans)
 		$('.slide').eq(this.crt-1).find('.body').children().hide();
 		var elts;
 		if(this.curTrans == this.ntrans || $('.slide').eq(this.crt-1).find('.pause').length < this.curTrans + 1)
