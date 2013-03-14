@@ -197,7 +197,26 @@ mySlides.prototype = {
 			$('.slide').removeClass('crt').eq(this.crt-1).addClass('crt');
 			$('#pages').html( this.params.slideNumberStyle.replace('%p', this.crt).replace('%t', this.nbr) );
 
-			this.ntrans = $('.slide').eq(this.crt-1).find('.pause').length;
+			pauseTrans = $('.slide').eq(this.crt-1).find('.pause').length;
+			onlyTrans = 0;
+			$('.slide').eq(this.crt-1).find('[class^="only_"]').each(function() {
+				var classes = $(this).attr('class').split(' '),
+					params,
+					param;
+				for(x in classes) {
+					if(classes[x].substr(0, 5) == 'only_') {
+						params = classes[x].split('_');
+						param = parseInt(params[1]);
+						if(!isNaN(param) && param > onlyTrans)
+							onlyTrans = param;
+						if(params.length == 3 && !isNaN(param = parseInt(params[2])) && param > onlyTrans)
+							onlyTrans = param;
+						break;
+					}
+				}
+			});
+
+			this.ntrans = Math.max(pauseTrans, onlyTrans - 1);
 			this.curTrans = -1;
 			this.doTrans(1);
 		}
@@ -207,12 +226,38 @@ mySlides.prototype = {
 		this.curTrans += trans;
 		$('.slide').eq(this.crt-1).find('.body').children().hide();
 		var elts;
-		if(this.curTrans == this.ntrans)
-			elts = $('.slide').eq(this.crt-1).find('.body').children();
+		if(this.curTrans == this.ntrans || $('.slide').eq(this.crt-1).find('.pause').length < this.curTrans + 1)
+			$('.slide').eq(this.crt-1).find('.body').children().show();
 		else
-			elts = $('.slide').eq(this.crt-1).find('.pause').eq(this.curTrans).prevAll();
+			$('.slide').eq(this.crt-1).find('.pause').eq(this.curTrans).prevAll().show();
 
-		elts.show();
+		var curTrans = this.curTrans + 1;
+		$('.slide').eq(this.crt-1).find('[class^="only_"]').each(function() {
+			var classes = $(this).attr('class').split(' '),
+				params,
+				show = false;
+			for(x in classes) {
+				if(classes[x].substr(0, 5) == 'only_') {
+					params = classes[x].split('_');
+					if(params.length == 3) {
+						if(!isNaN(parseInt(params[1])) && parseInt(params[1]) <= curTrans && !isNaN(parseInt(params[2])) && parseInt(params[2]) >= curTrans)
+							show = true;
+						else if(!isNaN(parseInt(params[1])) && parseInt(params[1]) <= curTrans && isNaN(parseInt(params[2])))
+							show = true;
+						else if(isNaN(parseInt(params[1])) && !isNaN(parseInt(params[2])) && parseInt(params[2]) >= curTrans)
+							show = true;
+						else if(isNaN(parseInt(params[1])) && isNaN(parseInt(params[2])))
+							show = true;
+					}
+					else if(!isNaN(parseInt(params[1])) && parseInt(params[1]) == curTrans)
+						show = true;
+
+					show ? $(this).show() : $(this).hide();
+					break;
+				}
+			}
+		});
+
 		this.scaleImages();
 	},
 
@@ -253,7 +298,6 @@ mySlides.prototype = {
 			if($(this).data('height') == undefined)
 				$(this).data('height', $(this).height());
 			$(this).height($(this).data('height') / 3);
-			console.log($(this).height())
 		});
 	},
 

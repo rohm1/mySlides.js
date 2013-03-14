@@ -9,6 +9,7 @@ mySlides.js
 * exposé mode (grid, inline)
 * responsive design (resize the text depending on your screen height)
 * pauses: display your slides step by step
+* only: to display elements of your slides exactly when you want
 * localization: select your language to display properly the date
 * create your own theme
 
@@ -59,6 +60,7 @@ mySlides.js
 * .navPopupContextMenu: displays the nav popup as a context menu; use ```navPopupAsContextMenu: true``` to apply this class to #navPopup
 * .navPopupPopup: displays the nav popup as popup; use ```navPopupAsContextMenu: false``` to apply this class to #navPopup
 * #pages: where the pages will be displayed
+* .only_..: cf. \only in LaTeX
 * .pause: use an invisible element with this class to make pauses in your slides
 * .section: used to generate the table of contents; top level
 * .slide: a slide
