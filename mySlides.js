@@ -21,11 +21,11 @@ var mySlides = function(userParams) {
 	}
 
 	/************* variables ******************/
-	this.nbr = -1;
+	this.nbr;
 	this.crt = -1;
 	this.hash = -1;
-	this.ntrans = 0;
-	this.curTrans = 0;
+	this.ntrans;
+	this.curTrans;
 
 	this.lang = {
 		defaultLang: 'en', //if the submitted parans.lang does not exist
@@ -69,8 +69,8 @@ mySlides.prototype = {
 			case 40: /*down*/
 			case 32: /*space*/
 			case 78: /*n*/
-				if(this.curTrans == this.ntrans || this.ntrans == 0)
-					document.location.hash = this.crt+1;
+				if(this.curTrans == this.ntrans)
+					document.location.hash = this.crt + 2;
 				else
 					this.doTrans(1);
 				break;
@@ -79,7 +79,7 @@ mySlides.prototype = {
 			case 8: /*back*/
 			case 80: /*p*/
 				if(this.curTrans == 0)
-					document.location.hash = this.crt-1;
+					document.location.hash = this.crt;
 				else
 					this.doTrans(-1);
 				break;
@@ -191,16 +191,18 @@ mySlides.prototype = {
 	checkSlide: function() {
 		if(window.location.hash != this.hash) {
 			var oldCrt = this.crt;
-			this.crt = parseInt(document.location.hash.replace('#', ''));
-			this.crt = (isNaN(this.crt) || this.crt < 1) ? 1 : (this.crt > this.nbr ? this.nbr : this.crt);
-			document.location.hash = this.crt;
+			this.crt = parseInt(document.location.hash.replace('#', '')) - 1;
+			this.crt = (isNaN(this.crt) || this.crt < 0) ? 0 : (this.crt >= this.nbr ? this.nbr - 1 : this.crt);
+			document.location.hash = this.crt + 1;
 			this.hash = document.location.hash;
-			$('.slide').removeClass('crt').eq(this.crt-1).addClass('crt');
-			$('#pages').html( this.params.slideNumberStyle.replace('%p', this.crt).replace('%t', this.nbr) );
+			$('.slide').removeClass('crt').eq(this.crt).addClass('crt');
+			$('#pages').html( this.params.slideNumberStyle.replace('%p', this.crt + 1).replace('%t', this.nbr) );
 
-			pauseTrans = $('.slide').eq(this.crt-1).find('.pause').length;
+			$('.slide').eq(this.crt).find('.body').children().hide();
+
+			pauseTrans = $('.slide').eq(this.crt).find('.pause').length;
 			onlyTrans = 0;
-			$('.slide').eq(this.crt-1).find('[class^="only_"]').each(function() {
+			$('.slide').eq(this.crt).find('[class^="only_"]').each(function() {
 				var classes = $(this).attr('class').split(' '),
 					params,
 					param;
@@ -224,33 +226,43 @@ mySlides.prototype = {
 	},
 
 	doTrans: function(trans) {
-		this.curTrans += trans;console.log(this.curTrans + " " + this.ntrans)
-		$('.slide').eq(this.crt-1).find('.body').children().hide();
-		var elts;
-		if(this.curTrans == this.ntrans || $('.slide').eq(this.crt-1).find('.pause').length < this.curTrans + 1)
-			$('.slide').eq(this.crt-1).find('.body').children().show();
-		else
-			$('.slide').eq(this.crt-1).find('.pause').eq(this.curTrans).prevAll().show();
+		this.curTrans += trans;
+		if(this.curTrans == this.ntrans || $('.slide').eq(this.crt).find('.pause').length <= this.curTrans)
+			$('.slide').eq(this.crt).find('.body').children(':not([class^="only_"])').show();
+		else {
+			$('.slide').eq(this.crt).find('.pause').eq(this.curTrans)
+				.prevAll(':not([class^="only_"])').show()
+					.end()
+				.nextAll(':not([class^="only_"])').hide();
+		}
 
-		var curTrans = this.curTrans + 1;
-		$('.slide').eq(this.crt-1).find('[class^="only_"]').each(function() {
+		var curTrans = this.curTrans;
+		$('.slide').eq(this.crt).find('[class^="only_"]').each(function() {
 			var classes = $(this).attr('class').split(' '),
 				params,
-				show = false;
+				show = false,
+				p1,
+				i1,
+				p2,
+				i2;
 			for(x in classes) {
 				if(classes[x].substr(0, 5) == 'only_') {
 					params = classes[x].split('_');
+					p1 = parseInt(params[1]) - 1;
+					i1 = isNaN(p1);
 					if(params.length == 3) {
-						if(!isNaN(parseInt(params[1])) && parseInt(params[1]) <= curTrans && !isNaN(parseInt(params[2])) && parseInt(params[2]) >= curTrans)
+						p2 = parseInt(params[2]) - 1;
+						i2 = isNaN(p2);
+						if(!i1 && p1 <= curTrans && !i2 && p2 >= curTrans)
 							show = true;
-						else if(!isNaN(parseInt(params[1])) && parseInt(params[1]) <= curTrans && isNaN(parseInt(params[2])))
+						else if(!i1 && p1 <= curTrans && i2)
 							show = true;
-						else if(isNaN(parseInt(params[1])) && !isNaN(parseInt(params[2])) && parseInt(params[2]) >= curTrans)
+						else if(i1 && !i2 && p2 >= curTrans)
 							show = true;
-						else if(isNaN(parseInt(params[1])) && isNaN(parseInt(params[2])))
+						else if(i1 && i2)
 							show = true;
 					}
-					else if(!isNaN(parseInt(params[1])) && parseInt(params[1]) == curTrans)
+					else if(!i1 && p1 == curTrans)
 						show = true;
 
 					show ? $(this).show() : $(this).hide();
