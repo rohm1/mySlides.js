@@ -125,6 +125,22 @@ mySlides.prototype = {
 		//bind keys
 		this.bind('keydown', this.keydown);
 
+		//onclick binding
+		$('#slides').find('[class^="onclick-"]').each(function() {
+			$(this).on('click', function() {
+				var classes = $(this).attr('class').split(' ');
+
+				for(x in classes) {
+					if(classes[x].substr(0, 8) == 'onclick-') {
+						if($(this).hasClass(classes[x].substr(8)))
+							$(this).removeClass(classes[x].substr(8));
+						else
+							$(this).addClass(classes[x].substr(8));
+					}
+				}
+			});
+		});
+
 		//nav
 		this.hideNav();
 		this.toc();
@@ -190,6 +206,15 @@ mySlides.prototype = {
 
 	checkSlide: function() {
 		if(window.location.hash != this.hash) {
+			$('.slide').eq(this.crt).find('[class^="onclick-"]').each(function() {
+				var classes = $(this).attr('class').split(' ');
+
+				for(x in classes) {
+					if(classes[x].substr(0, 8) == 'onclick-')
+						$(this).removeClass(classes[x].substr(8));
+				}
+			});
+
 			var oldCrt = this.crt;
 			this.crt = parseInt(document.location.hash.replace('#', '')) - 1;
 			this.crt = (isNaN(this.crt) || this.crt < 0) ? 0 : (this.crt >= this.nbr ? this.nbr - 1 : this.crt);

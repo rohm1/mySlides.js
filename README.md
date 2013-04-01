@@ -60,6 +60,7 @@ mySlides.js
 * .navPopupContextMenu: displays the nav popup as a context menu; use ```navPopupAsContextMenu: true``` to apply this class to #navPopup
 * .navPopupPopup: displays the nav popup as popup; use ```navPopupAsContextMenu: false``` to apply this class to #navPopup
 * #pages: where the pages will be displayed
+* .onclick-classname: adds the class classname to the element when its clicked, and removes it when clicked again; classname is removed when changing slide
 * .only_..: cf. \only in LaTeX
 * .pause: use an invisible element with this class to make pauses in your slides
 * .section: used to generate the table of contents; top level
