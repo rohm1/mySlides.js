@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>My Prez</title>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-	<script type="text/javascript" src="mySlides.js"></script>
-	<link rel="stylesheet" type="text/css" href="styles/prez1/style.css" />
-	<script type="text/javascript">
-		new mySlides({lang: 'fr', exposeMode: 'inline', navPopupAsContextMenu: true});
-	</script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>My Prez</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="mySlides.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles/prez1/style.css" />
+    <script type="text/javascript">
+        new mySlides({lang: 'fr', exposeMode: 'inline', navPopupAsContextMenu: true});
+    </script>
 </head>
 <body>
 
@@ -16,19 +16,19 @@
 
 <section id="slides">
 
-	<section class="slide">
-		<section class="head">
-			<section class="title">title page</section>
-			<section class="subtitle"></section>
-		</section>
-		<section class="body">
-			<img src="imgs/chaton.jpg" />
-			<span>aa</span>
-			<span class="pause"></span>
-			<span>bb</span>
-			<span class="pause"></span>
-			<span>cc</span>
-			<span class="only_3">
+    <section class="slide">
+        <section class="head">
+            <section class="title">title page</section>
+            <section class="subtitle"></section>
+        </section>
+        <section class="body">
+            <img src="imgs/chaton.jpg" alt="cute kitty" />
+            <span>aa</span>
+            <span data-pause></span>
+            <span>bb</span>
+            <span data-pause></span>
+            <span>cc</span>
+            <span data-only="3">
 <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline" title="x_{1,2} = \frac{-b \pm \sqrt{b^2 -4ac}}{2a} ">
   <mrow>
     <msub>
@@ -71,131 +71,131 @@
     </mfrac>
   </mrow>
 </math>
-			</span>
+            </span>
 
-			<span class="only_4">dd</span>
-			<span class="only_2_3">ee</span>
+            <span data-only="4">dd</span>
+            <span data-only="2_3">ee</span>
 
-		</section>
-	</section>
+        </section>
+    </section>
 
-	<section class="slide">
-		<section class="head">
-			<section class="title">TOC</section>
-			<section class="subtitle"></section>
-		</section>
-		<section class="body toc">
-		</section>
-	</section>
+    <section class="slide">
+        <section class="head">
+            <section>TOC</section>
+            <section class="subtitle"></section>
+        </section>
+        <section class="body toc">
+        </section>
+    </section>
 
-	<section class="slide section">
-		<section class="head">
-			<section class="title">First section</section>
-			<section class="subtitle"></section>
-		</section>
-		<section class="body">
-			<div class="onclick-egg">click me!</div>
-		</section>
-	</section>
+    <section class="slide section">
+        <section class="head">
+            <section class="title">First section</section>
+            <section class="subtitle"></section>
+        </section>
+        <section class="body">
+            <div data-onclick="egg">click me!</div>
+        </section>
+    </section>
 
-	<section class="slide subsection">
-		<section class="head">
-			<section class="title">First section > 1</section>
-			<section class="subtitle"></section>
-		</section>
-		<section class="body">
-			<span>aa</span>
-			<span class="pause"></span>
-			<span>bb</span>
-			<span class="pause"></span>
-			<span>cc</span>
-			<span class="pause"></span>
-			<span>dd</span>
-		</section>
-	</section>
+    <section class="slide subsection">
+        <section class="head">
+            <section class="title">First section > 1</section>
+            <section class="subtitle"></section>
+        </section>
+        <section class="body">
+            <span class="onclick-test">aa</span>
+            <span class="pause"></span>
+            <span>bb</span>
+            <span class="pause"></span>
+            <span>cc</span>
+            <span class="pause"></span>
+            <span>dd</span>
+        </section>
+    </section>
 
-	<section class="slide subsection">
-		<section class="head">
-			<section class="title">First section > 2</section>
-			<section class="subtitle"></section>
-		</section>
-		<section class="body">
-		</section>
-	</section>
+    <section class="slide subsection">
+        <section class="head">
+            <section class="title">First section > 2</section>
+            <section class="subtitle"></section>
+        </section>
+        <section class="body">
+        </section>
+    </section>
 
-	<section class="slide section">
-		<section class="head">
-			<section class="title">Second section</section>
-			<section class="subtitle"></section>
-		</section>
-		<section class="body">
-		</section>
-	</section>
+    <section class="slide section">
+        <section class="head">
+            <section class="title">Second section</section>
+            <section class="subtitle"></section>
+        </section>
+        <section class="body">
+        </section>
+    </section>
 
-	<section class="slide subsection">
-		<section class="head">
-			<section class="title">Second section > 1</section>
-			<section class="subtitle"></section>
-		</section>
-		<section class="body">
-		</section>
-	</section>
+    <section class="slide subsection">
+        <section class="head">
+            <section class="title">Second section > 1</section>
+            <section class="subtitle"></section>
+        </section>
+        <section class="body">
+        </section>
+    </section>
 
-	<section class="slide subsection">
-		<section class="head">
-			<section class="title">Second section > 2</section>
-			<section class="subtitle"></section>
-		</section>
-		<section class="body">
-		</section>
-	</section>
+    <section class="slide subsection">
+        <section class="head">
+            <section class="title">Second section > 2</section>
+            <section class="subtitle"></section>
+        </section>
+        <section class="body">
+        </section>
+    </section>
 
-	<section class="slide subsection">
-		<section class="head">
-			<section class="title">Second section > 3</section>
-			<section class="subtitle"></section>
-		</section>
-		<section class="body">
-		</section>
-	</section>
+    <section class="slide subsection">
+        <section class="head">
+            <section class="title">Second section > 3</section>
+            <section class="subtitle"></section>
+        </section>
+        <section class="body">
+        </section>
+    </section>
 
-	<section class="slide section">
-		<section class="head">
-			<section class="title">Third section</section>
-			<section class="subtitle"></section>
-		</section>
-		<section class="body">
-		</section>
-	</section>
+    <section class="slide section">
+        <section class="head">
+            <section class="title">Third section</section>
+            <section class="subtitle"></section>
+        </section>
+        <section class="body">
+        </section>
+    </section>
 
 </section>
 
 <section id="navPopup">
-	<section id="navPopupContainer">
-		<section id="navPopupClose" class="closeBtn"></section>
-		<section class="toc"></section>
-		<form id="navForm">
-			Go to <input type="text" />
-		</form>
-	</section>
+    <section id="navPopupContainer">
+        <section id="navPopupClose" class="closeBtn"></section>
+        <section class="toc"></section>
+        <form id="navForm">
+            Go to <input type="text" />
+        </form>
+    </section>
 </section>
 
 <section id="expose">
-	<section id="exposeContainer">
-		<section id="exposeClose" class="closeBtn"></section>
-		<section id="exposeSlideContainer"></section>
-	</section>
+    <section id="exposeContainer">
+        <section id="exposeClose" class="closeBtn"></section>
+        <section id="exposeSlideContainer"></section>
+    </section>
 </section>
 
 <footer>
-	<section class="author">the viatch team</section>
-	<section class="company">Une belle présentation</section>
-	<section class="date"></section>
-	<section class="nav">
-		<span id="exposeButton">exposé</span>
-		<span id="navButton">nav</span>
-		<span id="pages"></span>
-	</section>
+    <section class="author">the viatch team</section>
+    <section class="company">Une belle présentation</section>
+    <section class="date"></section>
+    <section class="nav">
+        <span id="exposeButton">exposé</span>
+        <span id="navButton">nav</span>
+        <span id="pages"></span>
+    </section>
 </footer>
 
 </body>
