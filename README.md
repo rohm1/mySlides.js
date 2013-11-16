@@ -43,7 +43,7 @@ mySlides.js
 ##Classes and IDs##
 **All these classes and IDs are used by mySlides.js**
 
-* .crt: current slide
+* .current: current slide
 * #date: where the date will be displayed
 * .expose: a slide in exposé mode
 * #expose: the exposé frame
@@ -60,14 +60,16 @@ mySlides.js
 * .navPopupContextMenu: displays the nav popup as a context menu; use ```navPopupAsContextMenu: true``` to apply this class to #navPopup
 * .navPopupPopup: displays the nav popup as popup; use ```navPopupAsContextMenu: false``` to apply this class to #navPopup
 * #pages: where the pages will be displayed
-* .onclick-classname: adds the class classname to the element when its clicked, and removes it when clicked again; classname is removed when changing slide
-* .only_..: cf. \only in LaTeX
-* .pause: use an invisible element with this class to make pauses in your slides
 * .section: used to generate the table of contents; top level
 * .slide: a slide
 * #slides: container for the slides
 * .subsection: used to generate the table of contents; second level
 * .title: title of a slide; the content/value will be used in the table of contents
 * .toc: hosts the table of contents
+
+## Data attributes ##
+* onclick: data-onclick="classname" adds the class classname to the element when its clicked, and removes it when clicked again; classname is removed when changing slide
+* only: cf. \only in LaTeX
+* pause: to make pauses in your slides
 
 ##License##

@@ -1,4 +1,5 @@
 var mySlides = function (userParams) {
+
     /************* params ******************/
     this.params = {
         lang: 'en',
@@ -48,6 +49,32 @@ var mySlides = function (userParams) {
 
     };
 
+    /************* contexts ******************/
+    this.CONTEXT_GLOBAL = 0;
+    this.CONTEXT_DRAW   = 1;
+
+    this.context = this.CONTEXT_GLOBAL;
+
+    /************* keyboard shortcuts ******************/
+    this.keyboardSortcuts = [];
+
+    this.keyboardSortcuts[this.CONTEXT_GLOBAL] =
+         {
+            'no-modificator': {
+                39 /*right*/: this.next,
+                40 /*down*/ : this.next,
+                32 /*space*/: this.next,
+                78 /*n*/    : this.next,
+                37 /*left*/ : this.prev,
+                38 /*up*/   : this.prev,
+                 8 /*back*/ : this.prev,
+                80 /*p*/    : this.prev,
+            },
+            'ctrl+alt': {},
+        };
+
+    this.keyboardSortcuts[this.CONTEXT_DRAW] = {};
+
     /************* init ******************/
     this.bind('DOMContentLoaded', this.init);
 };
@@ -65,31 +92,28 @@ mySlides.prototype = {
     },
 
     keydown: function (e) {
-        switch (e.which) {
-            case 39: /*right*/
-            case 40: /*down*/
-            case 32: /*space*/
-            case 78: /*n*/
-                if (this.curTrans == this.ntrans) {
-                    document.location.hash = this.crt + 2;
-                }
-                else {
-                    this.doTrans(1);
-                }
-                break;
-            case 37: /*left*/
-            case 38: /*up*/
-            case 8: /*back*/
-            case 80: /*p*/
-                if (this.curTrans == 0) {
-                    document.location.hash = this.crt;
-                }
-                else {
-                    this.doTrans(-1);
-                }
-                break;
-            default:
-                break;
+        var shortcuts = this.keyboardSortcuts[this.context],
+            code = e.which,
+            available_modificators = ['ctrl', 'alt', 'shift'],
+            used_modificators = [];
+
+        for (x in available_modificators) {
+            if (e[available_modificators[x] + 'Key']) {
+                used_modificators.push(available_modificators[x]);
+            }
+        }
+        used_modificators = used_modificators.join('+');
+
+        if (used_modificators != '') {
+            if (shortcuts[used_modificators] && shortcuts[used_modificators][code]) {
+                shortcuts[used_modificators][code].call(this);
+                e.preventDefault();
+            }
+        } else {
+            if (shortcuts['no-modificator'] && shortcuts['no-modificator'][code]) {
+                shortcuts['no-modificator'][code].call(this);
+                e.preventDefault();
+            }
         }
     },
 
@@ -223,6 +247,22 @@ mySlides.prototype = {
 
     /************* navigation ******************/
 
+    next: function() {
+        if (this.curTrans == this.ntrans) {
+            document.location.hash = this.crt + 2;
+        }  else {
+            this.doTrans(1);
+        }
+    },
+
+    prev: function() {
+        if (this.curTrans == 0) {
+            document.location.hash = this.crt;
+        } else {
+            this.doTrans(-1);
+        }
+    },
+
     checkSlide: function () {
         if (window.location.hash != this.hash) {
             $('.slide').eq(this.crt).find('[data-onclick]').each(function() {
@@ -234,7 +274,7 @@ mySlides.prototype = {
             this.crt = (isNaN(this.crt) || this.crt < 0) ? 0 : (this.crt >= this.nbr ? this.nbr - 1 : this.crt);
             document.location.hash = this.crt + 1;
             this.hash = document.location.hash;
-            $('.slide').removeClass('crt').eq(this.crt).addClass('crt');
+            $('.slide').removeClass('current').eq(this.crt).addClass('current');
             $('#pages').html( this.params.slideNumberStyle.replace('%p', this.crt + 1).replace('%t', this.nbr) );
 
             $('.slide').eq(this.crt).find('.body').children().hide();
